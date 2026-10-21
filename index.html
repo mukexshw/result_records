@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Result Management System</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="background-glow glow1"></div>
+    <div class="background-glow glow2"></div>
+
+    <header class="topbar">
+        <div class="logo">SR</div>
+        <div class="brand">
+            <h2>Student Result</h2>
+            <p>Management System</p>
+        </div>
+        <div class="status">● SYSTEM ONLINE</div>
+    </header>
+
+    <main class="container">
+        <section class="hero">
+            <p class="eyebrow">STUDENT ACADEMIC PORTAL</p>
+            <h1>Student Result<br><span>Management</span></h1>
+            <p class="subtitle">Enter student information and marks to generate a complete academic result.</p>
+        </section>
+
+        <div class="progress">
+            <div class="progress-step active" id="step1"><span>1</span> Student Details</div>
+            <div class="progress-line"></div>
+            <div class="progress-step" id="step2"><span>2</span> Marks Entry</div>
+            <div class="progress-line"></div>
+            <div class="progress-step" id="step3"><span>3</span> Result</div>
+        </div>
+
+        <section class="panel">
+            <form id="studentForm" novalidate>
+                <div class="form-page active" id="page1">
+                    <h2>Student Information</h2>
+                    <p class="muted">Step 1 of 3 — Enter student details</p>
+
+                    <div class="form-grid">
+                        <div class="field">
+                            <label for="studentName">Full Name</label>
+                            <input id="studentName" required placeholder="Enter student name">
+                        </div>
+                        <div class="field">
+                            <label for="rollNo">Roll Number</label>
+                            <input id="rollNo" required placeholder="Enter roll number">
+                        </div>
+                        <div class="field">
+                            <label for="course">Course</label>
+                            <select id="course" required>
+                                <option value="">Select course</option>
+                                <option value="BCA">BCA</option>
+                                <option value="BBA">BBA</option>
+                                <option value="B.Com">B.Com</option>
+                                <option value="BA">BA</option>
+                                <option value="B.Sc">B.Sc</option>
+                                <option value="MCA">MCA</option>
+                            </select>
+                        </div>
+                        <div class="field">
+                            <label for="semester">Semester</label>
+                            <select id="semester" required>
+                                <option value="">Select semester</option>
+                                <option value="1st Semester">1st Semester</option>
+                                <option value="2nd Semester">2nd Semester</option>
+                                <option value="3rd Semester">3rd Semester</option>
+                                <option value="4th Semester">4th Semester</option>
+                                <option value="5th Semester">5th Semester</option>
+                                <option value="6th Semester">6th Semester</option>
+                            </select>
+                        </div>
+                        <div class="field">
+                            <label for="department">Department</label>
+                            <input id="department" value="Computer Applications" required>
+                        </div>
+                        <div class="field">
+                            <label for="session">Academic Session</label>
+                            <input id="session" placeholder="2026-2027" required>
+                        </div>
+                    </div>
+
+                    <p class="hint">Choose a course and semester. Their subjects will appear on the next page.</p>
+                    <button type="button" class="btn primary" id="continueButton">Continue to Marks →</button>
+                </div>
+
+                <div class="form-page" id="page2">
+                    <h2>Subject Marks</h2>
+                    <p class="muted" id="marksDescription">Step 2 of 3 — Enter marks out of 100</p>
+                    <div id="subjectsContainer" class="form-grid"></div>
+                    <div class="marks-summary">
+                        <span id="subjectCount">0 subjects</span>
+                        <span>Maximum marks: <strong id="maximumMarks">0</strong></span>
+                    </div>
+                    <p class="hint">These are example subject lists. Check your official college syllabus before using results officially. Pass rule: at least 33 marks in every subject.</p>
+                    <div class="button-row">
+                        <button type="button" class="btn secondary" id="backToDetails">← Back</button>
+                        <button type="button" class="btn primary" id="generateButton">Generate Result →</button>
+                    </div>
+                </div>
+
+                <div class="form-page" id="page3">
+                    <h2>Academic Result</h2>
+                    <p class="muted">Step 3 of 3 — Result summary</p>
+                    <div id="resultCard" class="result-card"></div>
+                    <div class="button-row">
+                        <button type="button" class="btn secondary" id="editMarksButton">← Edit Marks</button>
+                        <button type="button" class="btn primary" id="saveButton">Save Result</button>
+                        <button type="button" class="btn secondary" id="printButton">Print / PDF</button>
+                    </div>
+                </div>
+            </form>
+        </section>
+
+        <section class="panel records">
+            <div class="records-heading">
+                <div>
+                    <p class="eyebrow">DATABASE OVERVIEW</p>
+                    <h2>Saved Student Records</h2>
+                </div>
+                <button class="btn secondary" id="exportButton">Export CSV</button>
+            </div>
+
+            <input id="searchInput" class="search" placeholder="Search by student name or roll number..." aria-label="Search saved records">
+
+            <div class="stats">
+                <div class="stat"><span>Total Records</span><strong id="totalRecords">0</strong></div>
+                <div class="stat"><span>Passed</span><strong id="passedRecords">0</strong></div>
+                <div class="stat"><span>Failed</span><strong id="failedRecords">0</strong></div>
+            </div>
+
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Roll No.</th><th>Student</th><th>Course</th>
+                            <th>Semester</th><th>Total</th><th>Percentage</th>
+                            <th>Grade</th><th>Result</th><th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="recordsBody"></tbody>
+                </table>
+            </div>
+            <p id="emptyMessage" class="muted empty">No records saved yet.</p>
+        </section>
+    </main>
+
+    <footer><p>Student Result Management System · Academic Portal</p></footer>
+    <script src="script.js"></script>
+</body>
+</html>
